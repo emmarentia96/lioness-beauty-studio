@@ -40,10 +40,36 @@ Then open http://127.0.0.1:8765/ in a browser. Google Fonts are optional; fallba
 - Section order: 01 Real work, real style · 02 About · 03 Price list · 04 Reviews · 05 Booking
 - The old "03 / The good stuff" service-card section was removed at the owner's request. Its braiding note was moved into the price list so the quote-on-request detail isn't lost. The `.services-section` / `.service-grid` / `.service-card` CSS was deliberately left in `styles.css` (currently unused) so the section can be restored from the backup if wanted — strip it once the content is final.
 
-## Before publishing
+## Published
 
-1. **Confirm remaining content.** Prices and portfolio image permissions should still be checked by the owner. The testimonials are confirmed real, but they carry no client names ("A returning client") — add a first name or initial only with that client's permission.
-2. **Make share URLs absolute.** Once the hosting address is known, `og:image` / `twitter:image` in both HTML files should become full `https://...` URLs (crawlers prefer absolute paths), and an absolute `og:url` plus a `canonical` link can be added.
-3. **Get explicit approval**, then publish to a free host.
+- **Live site: https://emmarentia96.github.io/lioness-beauty-studio/**
+- Gallery: https://emmarentia96.github.io/lioness-beauty-studio/gallery.html
+- Source repo: https://github.com/emmarentia96/lioness-beauty-studio (public)
+- Host: GitHub Pages, free tier, built from `main` at the repo root. `.nojekyll` is present so Pages serves the files as-is.
+- Account: `emmarentia96`. The GitHub CLI lives at `~/tools/gh.exe` (not on PATH).
 
-No hosting account, domain, paid service, or public site has been created.
+### Updating the live site
+
+Edit the files, then:
+
+```bash
+cd ~/lioness-beauty-studio
+git add -A && git commit -m "describe the change"
+git push
+```
+
+Pages rebuilds automatically in about a minute. A local preview server can run alongside at `python -m http.server 8765`.
+
+## Remaining content checks (owner's call)
+
+1. **Prices** — the owner reviewed the list, but the Full glam combo (R900–R1,200) is priced below the sum of its four parts. Deliberate bundle discount or typo?
+2. **Testimonials** — confirmed real, but carry no client names ("A returning client"). Add a first name or initial only with that client's permission.
+3. **Portfolio permissions** — the gallery now includes photos of clients (lash application, frontal detail). Confirm each person is happy for their photo to appear on a public site.
+4. **Custom domain** (optional, paid) — a `.co.za` domain would replace the github.io address. Nothing purchased; the owner must approve first.
+
+## Assets not published
+
+Two files were moved out of the site to `~/lioness-beauty-originals/`:
+
+- `lash-look.jpg` — a phone screenshot (status bar, `1 of 2` counter, letterbox bars), not a usable photo. A cropped version is published as `assets/gallery/lash-volume.jpg`.
+- `welcoming-hero.jpg` — the old homepage hero background, removed with the hero photo.
