@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://emmarentia96.github.io/lioness-beauty-studio/sitemap.xml
