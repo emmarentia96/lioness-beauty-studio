@@ -42,35 +42,36 @@ Then open http://127.0.0.1:8765/ in a browser. Google Fonts are optional; fallba
 
 ## Published
 
-**Currently live at: https://emmarentia96.github.io/lioness-beauty-studio/** (this address works — always use it)
+**Live at: https://lionessbeauty.co.za** (custom domain, HTTPS enforced, certificate issued)
 
-- Gallery: https://emmarentia96.github.io/lioness-beauty-studio/gallery.html
+- Gallery: https://lionessbeauty.co.za/gallery.html
 - Source repo: https://github.com/emmarentia96/lioness-beauty-studio (public)
-- Host: GitHub Pages, free tier, built from `main` at the repo root. `.nojekyll` is present so Pages serves the files as-is.
-- Account: `emmarentia96`. The GitHub CLI lives at `~/bin/gh.exe` (and `~/tools/gh.exe`).
+- Host: GitHub Pages, free tier, built from `main` at the repo root. `.nojekyll` present.
+- Domain: `lionessbeauty.co.za` at HOSTAFRICA, renews 2 Oct 2027.
+- Account: `emmarentia96`. GitHub CLI at `~/bin/gh.exe` (and `~/tools/gh.exe`).
+- Google: domain ownership verified via DNS TXT record. The TXT record must stay in DNS for Search Console.
 
-### Custom domain: DISCONNECTED (parked, to be redone)
-
-`lionessbeauty.co.za` was bought at HOSTAFRICA (renews 2 Oct 2027) and Google verified ownership of it via a DNS TXT record. It is **not currently connected** to the site: the four GitHub A records were lost while the TXT record was being added, the apex was left pointing at HOSTAFRICA's parked server, and that broke both addresses (github.io redirects to the custom domain once one is configured).
-
-To reconnect, the apex needs exactly these four A records and nothing else:
+### DNS at HOSTAFRICA — the apex must be exactly this
 
 ```
-185.199.108.153
-185.199.109.153
-185.199.110.153
-185.199.111.153
+A     @     185.199.108.153
+A     @     185.199.109.153
+A     @     185.199.110.153
+A     @     185.199.111.153
+TXT   @     google-site-verification=iyCjABkjrqZz9wkqMP6b_QBnUrK3YgPGDb0U1GjVDIA
+CNAME www   emmarentia96.github.io      <- must point at github.io, NOT at the apex
 ```
 
-Then delete the parked `169.239.181.134` A record, re-add a `CNAME` file containing `lionessbeauty.co.za`, restore the absolute URLs in `index.html`, `gallery.html`, `sitemap.xml` and `robots.txt`, and set the Pages custom domain again. **Keep the `google-site-verification` TXT record** — it must stay for Search Console.
+**Two hard-won lessons, both of which broke the site once:**
 
-Also note: HOSTAFRICA auto-creates an A record pointing at their own parked server. Whenever it is present alongside the GitHub records, roughly one visitor in five gets a 404 and the HTTPS certificate never gets issued.
+1. HOSTAFRICA auto-creates an A record pointing at their own parked server (`169.239.180.4`, and after a zone reset, `169.239.181.134`). While it coexists with the four GitHub records, roughly one visitor in five gets a 404 **and GitHub will never issue the HTTPS certificate**. It must be deleted.
+2. `www` must be a CNAME to `emmarentia96.github.io`. Pointing it at the apex resolves but GitHub then excludes `www` from the certificate, so `https://www.lionessbeauty.co.za` fails TLS with a hostname mismatch.
 
-### Pending / optional cleanup
+### Pending
 
-- **HTTPS enforcement** — switch on once the certificate exists for a custom domain.
-- **TTLs of 1, 2, 3 and 4 seconds** on the four A records (row numbers were typed into the TTL field). Harmless, but set to `3600` when redoing them.
-- The auto-created `MX 0 lionessbeauty.co.za` record points mail at itself, so mail to the domain would not deliver. Irrelevant while the business uses Gmail.
+- **Fix the `www` CNAME** to `emmarentia96.github.io` (currently points at the apex, so `www` has no valid certificate).
+- The auto-created `MX 0 lionessbeauty.co.za` points mail at itself, so mail to the domain would not deliver. Irrelevant while the business uses Gmail.
+
 
 
 ### Updating the live site
