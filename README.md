@@ -42,11 +42,31 @@ Then open http://127.0.0.1:8765/ in a browser. Google Fonts are optional; fallba
 
 ## Published
 
-- **Live site: https://emmarentia96.github.io/lioness-beauty-studio/**
-- Gallery: https://emmarentia96.github.io/lioness-beauty-studio/gallery.html
+- **Custom domain: https://lionessbeauty.co.za** (registered at HOSTAFRICA, renews 2 Oct 2027)
+- Fallback address that always works: https://emmarentia96.github.io/lioness-beauty-studio/
+- Gallery: https://lionessbeauty.co.za/gallery.html
 - Source repo: https://github.com/emmarentia96/lioness-beauty-studio (public)
 - Host: GitHub Pages, free tier, built from `main` at the repo root. `.nojekyll` is present so Pages serves the files as-is.
-- Account: `emmarentia96`. The GitHub CLI lives at `~/tools/gh.exe` (not on PATH).
+- Account: `emmarentia96`. The GitHub CLI lives at `~/bin/gh.exe` (and `~/tools/gh.exe`).
+
+### DNS at HOSTAFRICA
+
+The apex must have exactly these four A records and nothing else:
+
+```
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
+
+Plus `www` CNAME to `lionessbeauty.co.za`. HOSTAFRICA auto-creates an A record pointing at `169.239.180.4` (their parked server) — it MUST be deleted, or roughly one visitor in five gets a 404 and the HTTPS certificate never gets issued.
+
+### Pending / optional cleanup
+
+- **HTTPS enforcement** — switch on once GitHub issues the certificate for the custom domain.
+- **TTLs of 1, 2, 3 and 4 seconds** on the four A records (row numbers were typed into the TTL field). Harmless and useful during setup, but change to `3600` once things are settled.
+- The auto-created `MX 0 lionessbeauty.co.za` record points mail at itself, so mail to the domain would not deliver. Harmless while the business uses Gmail, but remove it or point it at a real mail host if a domain email address is ever wanted.
 
 ### Updating the live site
 
@@ -59,6 +79,7 @@ git push
 ```
 
 Pages rebuilds automatically in about a minute. A local preview server can run alongside at `python -m http.server 8765`.
+
 
 ## Remaining content checks (owner's call)
 
